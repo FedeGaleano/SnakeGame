@@ -4,12 +4,12 @@
 
 
 
-## Title Screen
+### Title Screen
 This game is software rendered with ascii characters
 <img src="screenshots/screenshot-title.png">
 
-## Gameplay
+### Gameplay
 <img src="screenshots/screenshot-gameplay.png">
 
-## Game Over Screen
+### Game Over Screen
 <img src="screenshots/screenshot-gameover.png">
