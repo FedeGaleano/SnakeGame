@@ -1,1 +1,1 @@
-*Who needs complex graphics to have fun?*
+**Who needs complex graphics to have fun?**
