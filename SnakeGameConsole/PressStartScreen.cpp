@@ -25,4 +25,5 @@ void PressStartScreen::render()
 	rendering::renderCharMap(charmaps::title, { 32, 10 }, Color::CYAN);
 	rendering::renderCharMap(charmaps::underline, { 32, 17 }, Color::GREEN);
 	rendering::renderText(pressStartText, { 34, 19 });
+	rendering::renderText(L"Developed by FedeGaleano", { 65, 29 }, Color::GRAY | Color::BACK_MAGENTA);
 }

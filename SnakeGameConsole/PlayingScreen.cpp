@@ -7,12 +7,13 @@
 #include "utils.h"
 
 static unsigned short width = rendering::width / 2, height = rendering::height;
-static unsigned short maxWidth = width - 2, maxHeight = height - 1;
+static unsigned short maxWidth = width - 2, maxHeight = height - 2;
 
 static Vector2D foodPosition = { 20, 20 };
 static Vector2D velocity = { 1, 0 };
 static bool shouldGrow = false;
 static std::deque<Vector2D> snakeParts = { { 10, 2 },{ 9, 2 },{ 8, 2 },{ 7, 2 },{ 6, 2 } };
+static unsigned int score = 0;
 
 static bool selfCollided()
 {
@@ -68,6 +69,11 @@ static void renderSnake()
 	}
 }
 
+static void renderScore()
+{
+	rendering::renderText((L"SCORE: " + std::to_wstring(score)).c_str(), { 1, 0 }, Color::GRAY | Color::BACK_BLACK);
+}
+
 void PlayingScreen::KeyUp()
 {
 	if (velocity.y != 1)
@@ -104,6 +110,7 @@ void PlayingScreen::update()
 
 	if (snakeParts.at(0) == foodPosition)
 	{
+		++score;
 		placeNewFood();
 		shouldGrow = true;
 	}
@@ -117,12 +124,14 @@ void PlayingScreen::render()
 {
 	renderFood();
 	renderSnake();
+	renderScore();
 }
 
 void PlayingScreen::initialState()
 {
 	snakeParts = { { 10, 2 }, { 9, 2 }, { 8, 2 }, { 7, 2 }, { 6, 2 } };
 	shouldGrow = false;
+	score = 0;
 
 	foodPosition = { 20, 20 };
 	velocity = { 1, 0 };

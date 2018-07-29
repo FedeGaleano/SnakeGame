@@ -134,6 +134,7 @@
     <ClInclude Include="engine.h" />
     <ClInclude Include="Error.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="rendering.h" />

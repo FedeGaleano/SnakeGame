@@ -5,6 +5,8 @@ static CHAR_INFO buffer[rendering::width * rendering::height] = {};
 
 static HANDLE handle;
 
+static CONSOLE_CURSOR_INFO info = { 100, false };
+
 static SMALL_RECT windowRectangle;
 
 static void renderChar(wchar_t character, Vector2D coord, unsigned short int color)
@@ -14,7 +16,11 @@ static void renderChar(wchar_t character, Vector2D coord, unsigned short int col
 
 int rendering::init()
 {
+	SetConsoleTitle("Snake Game");
+
 	handle = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, NOT_SHARED, nullptr, CONSOLE_TEXTMODE_BUFFER, nullptr);
+	
+	SetConsoleCursorInfo(handle, &info);
 
 	windowRectangle = { 0, 0, rendering::width - 1, rendering::height - 1 };
 
