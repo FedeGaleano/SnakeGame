@@ -5,7 +5,7 @@
 
 
 ### Title Screen
-This game is software rendered with ascii characters
+This game is software-rendered with ascii characters
 <img src="screenshots/screenshot-title.png">
 
 ### Gameplay
