@@ -9,12 +9,10 @@ This game is software-rendered with ascii characters
 
 Title Screen:
 
-<img src="screenshots/screenshot-title.png">
+<img src="gifs/start-screen.gif">
 
 Gameplay:
 
-<img src="screenshots/screenshot-gameplay.png">
+<img src="gifs/level1.gif">
 
-Game Over:
-
-<img src="screenshots/screenshot-gameover.png">
+<img src="gifs/level2.gif">
