@@ -15,4 +15,6 @@ Gameplay:
 
 <img src="gifs/level1.gif">
 
-<img src="gifs/level2.gif">
+<img src="gifs/level3.gif">
+
+<img src="gifs/level5.gif">
