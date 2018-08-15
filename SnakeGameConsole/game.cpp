@@ -1,12 +1,12 @@
+#include <iostream>
 #include <random>
+#include <algorithm>
 #include "game.h"
 #include "rendering.h"
-#include "charmaps.h"
+#include "charmasks.h"
 #include "Vector2D.h"
 #include "Screen.h"
 #include "input.h"
-#include <iostream>
-#include <algorithm>
 
 Screen ** game::screens, * currentScreen;
 
@@ -23,8 +23,11 @@ void game::setScreen(State newState)
 	if (newState != BEGINNING_ANIMATION)
 		inputChannel::closeFor(40000);
 
-	if (newState == PLAYING)
-		PlayingScreen::initialState();
+	if (newState == SECRET)
+		SecretScreen::init();
+
+	if (newState == GAME_OVER)
+		GameOverScreen::prepareScoreRendering();
 
 	clearInput();
 	game::ticks = 0;
@@ -33,11 +36,12 @@ void game::setScreen(State newState)
 
 bool game::init()
 {
-	screens = new Screen*[4];
+	screens = new Screen*[5];
 	//Find the best moment to free each memory
 	screens[BEGINNING_ANIMATION] = new BeginningAnimationScreen();
 	screens[PRESS_START]         = new PressStartScreen();
 	screens[PLAYING]             = new PlayingScreen();
+	screens[SECRET]              = new SecretScreen();
 	screens[GAME_OVER]           = new GameOverScreen();
 
 	clearInput();
@@ -53,7 +57,7 @@ void game::update()
 void game::render()
 {
 	rendering::clearBuffer();
-	rendering::renderWalls(Color::MAGENTA);
+	rendering::renderSurroundingFrame(Color::MAGENTA);
 
 	currentScreen->render();
 }

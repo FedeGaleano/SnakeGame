@@ -1,7 +1,7 @@
 #include <deque>
 #include "Screen.h"
 #include "rendering.h"
-#include "charmaps.h"
+#include "charmasks.h"
 #include "input.h"
 #include "game.h"
 
@@ -20,5 +20,5 @@ void BeginningAnimationScreen::update()
 
 void BeginningAnimationScreen::render()
 {
-	rendering::renderCharMap(charmaps::title, { float(x), 10 }, Color::CYAN);
+	rendering::renderCharMap(charmasks::title, { float(x), 10 }, rendering::FULL_BLOCK, Color::CYAN);
 }

@@ -117,24 +117,30 @@
   <ItemGroup>
     <ClCompile Include="BeginningAnimationScreen.cpp" />
     <ClCompile Include="charmaps.cpp" />
+    <ClCompile Include="charmasks.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameOverScreen.cpp" />
+    <ClCompile Include="gameplay.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="maps.cpp" />
     <ClCompile Include="PlayingScreen.cpp" />
     <ClCompile Include="rendering.cpp" />
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="PressStartScreen.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="SecretScreen.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="charmaps.h" />
+    <ClInclude Include="charmasks.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="Error.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="gameplay.h" />
+    <ClInclude Include="maps.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="rendering.h" />

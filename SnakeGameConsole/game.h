@@ -8,5 +8,5 @@ namespace game
 	extern bool over;
 	bool init();
 	void setScreen(State state);
-	extern Screen ** screens;
+	extern Screen ** screens;	
 }

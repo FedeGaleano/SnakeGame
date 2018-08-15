@@ -6,44 +6,29 @@
 #include <windows.h>
 #include <string>
 #include "Vector2D.h"
+#include "maps.h"
+#include "Color.h"
 
-enum Color
-{
-	BLACK,
-	RED          = FOREGROUND_RED,
-	GREEN        = FOREGROUND_GREEN,
-	BLUE         = FOREGROUND_BLUE,
-	YELLOW       = RED  | GREEN,
-	CYAN         = BLUE | GREEN,
-	MAGENTA      = RED  | BLUE,
-	GRAY         = RED  | GREEN | BLUE,
-	BACK_BLACK   = BLACK,
-	BACK_RED     = BACKGROUND_RED,
-	BACK_GREEN   = BACKGROUND_GREEN,
-	BACK_BLUE    = BACKGROUND_BLUE,
-	BACK_YELLOW  = BACK_RED | BACK_GREEN,
-	BACK_CYAN    = BACK_BLUE | BACK_GREEN,
-	BACK_MAGENTA = BACK_RED | BACK_BLUE,
-	BACK_GRAY    = BACK_RED | BACK_BLUE | BACK_GREEN
-};
-
-struct CharMap
+struct CharMask
 {
 	const char * buffer;
 	unsigned int width, height;
-	CharMap(const char * buffer, unsigned int scanline);
+	CharMask(const char * buffer, unsigned int scanline);
 };
 
 namespace rendering
 {
-	static wchar_t FULL_BLOCK = 219;
-	static const short unsigned int width = 90 /*max = 120*/, height = 30 /*max = 30*/;
+	extern wchar_t FULL_BLOCK, SOFT_BLOCK, TRANSLUCENT_BLOCK, UPPER_SQUARE, LOWER_SQUARE;
+	extern const short unsigned int width, height;
 
 	void renderBlock(Vector2D coord, unsigned short int color = Color::GRAY);
-	void renderWalls(unsigned short color);
-	void renderCharMap(CharMap map, Vector2D initialCoords, unsigned short color = Color::GRAY);
+	void renderSoftBlock(Vector2D coord, unsigned short int color);
+	void renderSurroundingFrame(unsigned short color);
+	void renderCharMap(CharMask map, Vector2D offset, wchar_t ascii, unsigned short color);
 	void renderText(const wchar_t * text, Vector2D coord, unsigned short int color = Color::GRAY);
+	void renderChar(wchar_t character, Vector2D coord, unsigned short int color = Color::GRAY);
 	bool show();
 	void clearBuffer();
 	int init();
+	void renderMap(const Map & map);
 }

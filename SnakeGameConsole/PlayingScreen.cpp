@@ -5,15 +5,17 @@
 #include "input.h"
 #include "game.h"
 #include "utils.h"
-
-static unsigned short width = rendering::width / 2, height = rendering::height;
-static unsigned short maxWidth = width - 2, maxHeight = height - 2;
+#include "gameplay.h"
+#include "maps.h"
 
 static Vector2D foodPosition = { 20, 20 };
-static Vector2D velocity = { 1, 0 };
-static bool shouldGrow = false;
-static std::deque<Vector2D> snakeParts = { { 10, 2 },{ 9, 2 },{ 8, 2 },{ 7, 2 },{ 6, 2 } };
-static unsigned int score = 0;
+Map map = maps::level1;
+static Color foodColor = map.color;
+
+void setMap(const Map & selectedMap)
+{
+	map = selectedMap;
+}
 
 static bool selfCollided()
 {
@@ -25,13 +27,13 @@ static bool selfCollided()
 	return did;
 }
 
-static void setRandomXY(Vector2D &coord)
+static void setRandomXY(Vector2D & coord)
 {
-	coord.x = random::between(1, maxWidth);
-	coord.y = random::between(1, maxHeight);
+	coord.x = utils::random::between(1, maxWidth);
+	coord.y = utils::random::between(1, maxHeight);
 }
 
-static bool snakeIsOccupiyingPosition(Vector2D coord)
+static bool snakeIsOccupiyingPosition(const Vector2D & coord)
 {
 	for (auto &part : snakeParts)
 		if (part == coord)
@@ -39,39 +41,54 @@ static bool snakeIsOccupiyingPosition(Vector2D coord)
 	return false;
 }
 
+static bool mapIsOcupyingPosition(const Vector2D & position)
+{
+	return map.data[int(map.width * position.y + position.x)] == '#';
+}
+
 void placeNewFood()
 {
 	do setRandomXY(foodPosition);
-	while (snakeIsOccupiyingPosition(foodPosition));
-}
-
-void moveSnake(Vector2D delta_xy)
-{
-	snakeParts.push_front(snakeParts.at(0) + delta_xy);
-
-	if (!shouldGrow) snakeParts.pop_back();
-
-	shouldGrow = false;
+	while (snakeIsOccupiyingPosition(foodPosition) || mapIsOcupyingPosition(foodPosition));
 }
 
 static void renderFood()
 {
-	rendering::renderBlock({ foodPosition.x * 2, foodPosition.y }, Color::YELLOW);
-	rendering::renderBlock({ foodPosition.x * 2 + 1, foodPosition.y }, Color::YELLOW);
+	rendering::renderChar(rendering::LOWER_SQUARE, { foodPosition.x * 2, foodPosition.y }, foodColor);
+	rendering::renderChar(rendering::UPPER_SQUARE, { foodPosition.x * 2 + 1, foodPosition.y }, foodColor);
 }
 
-static void renderSnake()
+int scoreWidth()
 {
-	for (const auto &part : snakeParts)
+	return (L"SCORE: " + std::to_wstring(score)).size();
+}
+
+static bool doorCondition()
+{
+	auto &head = snakeParts.at(0);
+	return head.x > 0 && head.x * 2 + 1 <= scoreWidth() && head.y < 1;
+}
+
+static void normalWallCollisionLogic (Vector2D & head)
+{
+	if (!doorCondition() && mapIsOcupyingPosition(head))
+		game::setScreen(GAME_OVER);
+}
+
+static void powerUpWallCollisionLogic (Vector2D & head)
+{
+	if (!doorCondition())
 	{
-		rendering::renderBlock({ part.x * 2, part.y });
-		rendering::renderBlock({ part.x * 2 + 1, part.y });
+		head.x = utils::math::modulus(head.x, width);
+		head.y = utils::math::modulus(head.y, height);
 	}
 }
 
-static void renderScore()
+static void(*wallCollisionLogic)(Vector2D & head) = normalWallCollisionLogic;
+
+void powerUp()
 {
-	rendering::renderText((L"SCORE: " + std::to_wstring(score)).c_str(), { 1, 0 }, Color::GRAY | Color::BACK_BLACK);
+	wallCollisionLogic = powerUpWallCollisionLogic;
 }
 
 void PlayingScreen::KeyUp()
@@ -100,20 +117,28 @@ void PlayingScreen::KeyRight()
 
 void PlayingScreen::update()
 {
-	auto &head = snakeParts.at(0);
-
-	if (head.x < 1 || head.x > maxWidth || head.y < 1 || head.y > maxHeight || selfCollided())
+	if (selfCollided())
 	{
 		game::setScreen(GAME_OVER);
 		return;
 	}
 
+	if (doorCondition() && velocity.y < 0)
+	{
+		game::setScreen(SECRET);
+		return;
+	}
+
 	if (snakeParts.at(0) == foodPosition)
 	{
-		++score;
+		score += map.points;
 		placeNewFood();
 		shouldGrow = true;
 	}
+
+	wallCollisionLogic(snakeParts.at(0));
+
+	foodColor = utils::switchValuesByTimeLapse(map.color, Color::GRAY, 3);
 
 	this->reactToKeys();
 
@@ -122,17 +147,26 @@ void PlayingScreen::update()
 
 void PlayingScreen::render()
 {
+	rendering::renderMap(map);
 	renderFood();
 	renderSnake();
-	renderScore();
+	renderScore(1, 0);
 }
 
 void PlayingScreen::initialState()
 {
-	snakeParts = { { 10, 2 }, { 9, 2 }, { 8, 2 }, { 7, 2 }, { 6, 2 } };
+	extern bool beaten;
+
+	snakeParts = { { 10, 1 }, { 9, 1 }, { 8, 1 }, { 7, 1 }, { 6, 1 } };
 	shouldGrow = false;
 	score = 0;
+	foodColor = map.color;
+	snakeColor = snakeSecondColor = Color::GRAY;
+	block = rendering::FULL_BLOCK;
+	took = false;
+	wallCollisionLogic = normalWallCollisionLogic;
+	beaten = false;
 
-	foodPosition = { 20, 20 };
+	placeNewFood();
 	velocity = { 1, 0 };
 }
