@@ -3,7 +3,7 @@
 **Who needs complex graphics to have fun?**
 
 
-This game is software-rendered with ascii characters
+This game runs entirely in the command prompt, and is software-rendered using ascii characters
 
 ## Recordings
 
