@@ -3,15 +3,15 @@
 **Who needs complex graphics to have fun?**
 
 
-This game is software-rendered with ascii characters
+This game runs entirely in the command prompt, and is software-rendered using ascii characters
 
-### Screenshots
+## Recordings
 
-Title Screen:
+### Title Screen:
 
 <img src="gifs/start-screen.gif">
 
-Gameplay:
+### Gameplay:
 
 <img src="gifs/level1.gif">
 
