@@ -1,6 +1,12 @@
 #pragma once
 #include <windows.h>
 
+/*
+* Note(fex): These colors depend on the command promt's 'Color Scheme'.
+* Therefore, the game used in different command promts or in different Windows builds may show colors differently.
+* Windows 10 build 16257 changed this color scheme for the first time in Windows history (see: https://devblogs.microsoft.com/commandline/updating-the-windows-console-colors/).
+* Also, Windows Powershell and other alternative terminals usually use there own custom color scheme.
+*/
 enum Color
 {
 	BLACK,

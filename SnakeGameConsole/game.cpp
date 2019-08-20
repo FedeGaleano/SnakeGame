@@ -57,7 +57,7 @@ void game::update()
 void game::render()
 {
 	rendering::clearBuffer();
-	rendering::renderSurroundingFrame(Color::MAGENTA);
+	rendering::renderSurroundingFrame(Color::MAGENTA | Color::BACK_MAGENTA);
 
 	currentScreen->render();
 }

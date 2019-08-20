@@ -73,5 +73,5 @@ void PressStartScreen::render()
 	if (!onSelectionStep) rendering::renderText(pressStartText, { 34, 19 });
 	else renderOptions();
 
-	rendering::renderText(L"Developed by FedeGaleano", { 65, 29 }, Color::GRAY | Color::BACK_MAGENTA);
+	rendering::renderText(L"Developed by Fex", { 73, 29 }, Color::GRAY | Color::BACK_MAGENTA);
 }
