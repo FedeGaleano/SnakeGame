@@ -13,9 +13,6 @@ This game runs entirely in the command prompt, and is software-rendered using as
 ### Level 1
 <img src="gifs/level1.gif">
 
-### Level 1
-<img src="gifs/level1.gif">
-
 ### Level 2
 <img src="gifs/level2.gif">
 
